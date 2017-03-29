@@ -1,0 +1,21 @@
+#SOCKS服务监听的端口
+port: 1086
+
+#SOCKS服务维持的客户端连接最多闲置多少秒
+connectionIdleTimeSeconds: 60
+
+#SOCKS服务连接需要转发的目标服务器的超时时间(毫秒)
+connectTimeOutMillis: 1000
+
+#负责处理连接读写的线程数量
+serverSelectorThreads: 3
+
+#该SOCKS服务器在转发内容的时候是否使用SOCKS代理进行转发
+dispatchUseSocksv5: false
+
+#转发内容所使用的SOCKS服务地址
+dispatchSocksv5Address: "localhost"
+
+#转发没人所使用的SOCKS服务的端口
+dispatchSocksv5Port: 1080
+
