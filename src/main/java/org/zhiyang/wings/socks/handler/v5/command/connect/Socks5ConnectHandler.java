@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.zhiyang.wings.$;
 import org.zhiyang.wings.socks.SocksServerConfig;
 import org.zhiyang.wings.socks.handler.DirectHandler;
-import org.zhiyang.wings.socks.handler.CloseHandle;
+import org.zhiyang.wings.socks.handler.CloseHandler;
 import org.zhiyang.wings.socks.handler.ReplyHandler;
 
 /**
@@ -58,7 +58,7 @@ public class Socks5ConnectHandler extends SimpleChannelInboundHandler<Socks5Comm
                                     socksServerConfig.getDispatchSocksV5Address(),
                                     socksServerConfig.getDispatchSocksV5Port()));
                 }
-                pipeline.addLast(new CloseHandle(ctx.channel()));
+                pipeline.addLast(new CloseHandler(ctx.channel()));
                 pipeline.addLast(Socks5ClientEncoder.DEFAULT);
                 pipeline.addLast(new SendSocks5InitialRequest(socksServerConfig));
                 pipeline.addLast(new Socks5InitialResponseDecoder());
@@ -101,7 +101,7 @@ public class Socks5ConnectHandler extends SimpleChannelInboundHandler<Socks5Comm
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast(new CloseHandle(ctx.channel()));
+                pipeline.addLast(new CloseHandler(ctx.channel()));
                 pipeline.addLast(new DirectHandler(promise));
             }
         });

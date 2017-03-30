@@ -11,13 +11,13 @@ import org.zhiyang.wings.$;
 /**
  * @author lizhiyang
  */
-public class CloseHandle extends ChannelInboundHandlerAdapter {
+public class CloseHandler extends ChannelInboundHandlerAdapter {
 
-    private final Logger log = LoggerFactory.getLogger(CloseHandle.class);
+    private final Logger log = LoggerFactory.getLogger(CloseHandler.class);
 
     private final Channel relatedChannel;
 
-    public CloseHandle(@Nullable Channel relatedChannel) {
+    public CloseHandler(@Nullable Channel relatedChannel) {
         this.relatedChannel = relatedChannel;
     }
 

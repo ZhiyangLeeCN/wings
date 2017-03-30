@@ -12,13 +12,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.socksx.v5.Socks5CommandRequestDecoder;
 import io.netty.handler.codec.socksx.v5.Socks5InitialRequestDecoder;
 import io.netty.handler.codec.socksx.v5.Socks5ServerEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zhiyang.wings.socks.handler.CloseHandle;
+import org.zhiyang.wings.socks.handler.CloseHandler;
 import org.zhiyang.wings.socks.handler.v5.Socks5CommandRequestHandler;
 import org.zhiyang.wings.socks.handler.v5.Socks5InitialRequestHandler;
 
@@ -65,7 +62,7 @@ public class Socks5Server implements SocksServer {
                                     0,
                                     0,
                                     Socks5Server.this.socksServerConfig.getConnectionIdleTimeSeconds()));
-                            pipeline.addLast(new CloseHandle(null));
+                            pipeline.addLast(new CloseHandler(null));
                             pipeline.addLast(Socks5ServerEncoder.DEFAULT);
                             pipeline.addLast(new Socks5InitialRequestDecoder());
                             pipeline.addLast(new Socks5InitialRequestHandler(socksServerConfig));
