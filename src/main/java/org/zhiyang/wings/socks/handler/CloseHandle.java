@@ -26,6 +26,7 @@ public class CloseHandle extends ChannelInboundHandlerAdapter {
         if (relatedChannel != null && relatedChannel.isActive()) {
             $.closeOnFlush(relatedChannel);
         }
+        ctx.fireChannelInactive();
     }
 
     @Override
@@ -37,6 +38,9 @@ public class CloseHandle extends ChannelInboundHandlerAdapter {
                 $.closeOnFlush(relatedChannel);
             }
         }
-        $.closeOnFlush(ctx.channel());
+        if (ctx.channel().isActive()) {
+            $.closeOnFlush(ctx.channel());
+        }
+        ctx.fireExceptionCaught(cause);
     }
 }

@@ -1,5 +1,7 @@
 package org.zhiyang.wings.socks;
 
+import io.netty.handler.ssl.SslContext;
+
 /**
  * @author lizhiyang
  */
@@ -28,17 +30,52 @@ public class SocksServerConfig {
     /**
      * 转发请求的时候是否使用SocksV5代理
      */
-    private boolean dispatchUseSocksv5 = false;
+    private boolean dispatchUseSocksV5 = false;
 
     /**
      * 转发请求使用的SocksV5代理的地址
      */
-    private String dispatchSocksv5Address = "localhost";
+    private String dispatchSocksV5Address = "localhost";
 
     /**
      * 转发请求使用的SocksV5代理的端口
      */
-    private int dispatchSocksv5Port = 1080;
+    private int dispatchSocksV5Port = 1080;
+
+    /**
+     * Socks服务端监听是否启用SSL
+     */
+    private boolean sslForServer = false;
+
+    /**
+     * Socks服务端的X.509证书文件路径(PEM格式)
+     */
+    private String sslServerKeyCertChainFilePath = "";
+
+    /**
+     * Socks服务端的私钥(PKCS#8)文件路径(PEM格式)
+     */
+    private String sslServerPrivateKeyFilePath = "";
+
+    /**
+     * Socks服务端的私钥文件访问密码
+     */
+    private String sslServerPrivateKeyPassword = "";
+
+    /**
+     * 根据证书和秘钥构建的SSL上下文对象
+     */
+    private SslContext sslContextForServer = null;
+
+    /**
+     * 为转发所构建的SSL上下文(forClient)
+     */
+    private SslContext sslContextForDispatch = null;
+
+    /**
+     * 是否为转发启用SSL
+     */
+    private boolean sslForDispatch = false;
 
     public int getPort() {
         return port;
@@ -72,36 +109,92 @@ public class SocksServerConfig {
         this.serverSelectorThreads = serverSelectorThreads;
     }
 
-    public boolean isDispatchUseSocksv5() {
-        return dispatchUseSocksv5;
+    public boolean isDispatchUseSocksV5() {
+        return dispatchUseSocksV5;
     }
 
-    public void setDispatchUseSocksv5(boolean dispatchUseSocksv5) {
-        this.dispatchUseSocksv5 = dispatchUseSocksv5;
+    public void setDispatchUseSocksV5(boolean dispatchUseSocksV5) {
+        this.dispatchUseSocksV5 = dispatchUseSocksV5;
     }
 
-    public String getDispatchSocksv5Address() {
-        return dispatchSocksv5Address;
+    public String getDispatchSocksV5Address() {
+        return dispatchSocksV5Address;
     }
 
-    public void setDispatchSocksv5Address(String dispatchSocksv5Address) {
-        this.dispatchSocksv5Address = dispatchSocksv5Address;
+    public void setDispatchSocksV5Address(String dispatchSocksV5Address) {
+        this.dispatchSocksV5Address = dispatchSocksV5Address;
     }
 
-    public int getDispatchSocksv5Port() {
-        return dispatchSocksv5Port;
+    public int getDispatchSocksV5Port() {
+        return dispatchSocksV5Port;
     }
 
-    public void setDispatchSocksv5Port(int dispatchSocksv5Port) {
-        this.dispatchSocksv5Port = dispatchSocksv5Port;
+    public void setDispatchSocksV5Port(int dispatchSocksV5Port) {
+        this.dispatchSocksV5Port = dispatchSocksV5Port;
+    }
+
+    public boolean isSslForServer() {
+        return sslForServer;
+    }
+
+    public void setSslForServer(boolean sslForServer) {
+        this.sslForServer = sslForServer;
+    }
+
+    public String getSslServerKeyCertChainFilePath() {
+        return sslServerKeyCertChainFilePath;
+    }
+
+    public void setSslServerKeyCertChainFilePath(String sslServerKeyCertChainFilePath) {
+        this.sslServerKeyCertChainFilePath = sslServerKeyCertChainFilePath;
+    }
+
+    public String getSslServerPrivateKeyFilePath() {
+        return sslServerPrivateKeyFilePath;
+    }
+
+    public void setSslServerPrivateKeyFilePath(String sslServerPrivateKeyFilePath) {
+        this.sslServerPrivateKeyFilePath = sslServerPrivateKeyFilePath;
+    }
+
+    public String getSslServerPrivateKeyPassword() {
+        return sslServerPrivateKeyPassword;
+    }
+
+    public void setSslServerPrivateKeyPassword(String sslServerPrivateKeyPassword) {
+        this.sslServerPrivateKeyPassword = sslServerPrivateKeyPassword;
+    }
+
+    public boolean isSslForDispatch() {
+        return sslForDispatch;
+    }
+
+    public void setSslForDispatch(boolean sslForDispatch) {
+        this.sslForDispatch = sslForDispatch;
+    }
+
+    public SslContext getSslContextForServer() {
+        return sslContextForServer;
+    }
+
+    public void setSslContextForServer(SslContext sslContextForServer) {
+        this.sslContextForServer = sslContextForServer;
+    }
+
+    public SslContext getSslContextForDispatch() {
+        return sslContextForDispatch;
+    }
+
+    public void setSslContextForDispatch(SslContext sslContextForDispatch) {
+        this.sslContextForDispatch = sslContextForDispatch;
     }
 
     @Override
     public String toString() {
         return "[port=" + port + ", connectionIdleTimeSeconds=" + connectionIdleTimeSeconds +
                 ", connectTimeOutMillis=" + connectTimeOutMillis + ", serverSelectorThreads=" +
-                serverSelectorThreads + ", dispatchUseSocksv5=" + dispatchUseSocksv5 +
-                ", dispatchSocksv5Address=" + dispatchSocksv5Address + ", dispatchSocksv5Port=" +
-                dispatchSocksv5Port + "]";
+                serverSelectorThreads + ", dispatchUseSocksV5=" + dispatchUseSocksV5 +
+                ", dispatchSocksV5Address=" + dispatchSocksV5Address + ", dispatchSocksV5Port=" +
+                dispatchSocksV5Port + "]";
     }
 }

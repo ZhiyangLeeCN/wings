@@ -11,11 +11,25 @@ connectTimeOutMillis: 1000
 serverSelectorThreads: 3
 
 #该SOCKS服务器在转发内容的时候是否使用SOCKS代理进行转发
-dispatchUseSocksv5: false
+dispatchUseSocksV5: false
 
 #转发内容所使用的SOCKS服务地址
-dispatchSocksv5Address: "localhost"
+dispatchSocksV5Address: "localhost"
 
 #转发没人所使用的SOCKS服务的端口
-dispatchSocksv5Port: 1080
+dispatchSocksV5Port: 1080
 
+#SOCKS服务是否启用SSL
+sslForServer: false
+
+#是否为转发启用SSL
+sslForDispatch: false
+
+#Socks服务端的X.509证书文件路径(PEM格式)
+sslServerKeyCertChainFilePath: ""
+
+#Socks服务端的私钥(PKCS#8)文件路径(PEM格式)
+sslServerPrivateKeyFilePath: ""
+
+#Socks服务端的私钥文件访问密码
+sslServerPrivateKeyPassword: ""

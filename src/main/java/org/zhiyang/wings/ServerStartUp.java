@@ -2,6 +2,8 @@ package org.zhiyang.wings;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
@@ -9,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.zhiyang.wings.socks.Socks5Server;
 import org.zhiyang.wings.socks.SocksServer;
 import org.zhiyang.wings.socks.SocksServerConfig;
+
+import javax.net.ssl.SSLException;
+import java.io.File;
 
 /**
  * @author lizhiyang.
@@ -67,6 +72,53 @@ public class ServerStartUp {
                 LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
                 StatusPrinter.print(loggerContext);
                 $.msg("----------------------------------------");
+
+            }
+
+            try {
+
+                if (socksServerConfig.isSslForDispatch()) {
+
+                    socksServerConfig.setSslContextForDispatch(
+                            SslContextBuilder.forClient()
+                                    .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                                    .build());
+
+                }
+
+                if (socksServerConfig.isSslForServer()) {
+
+                    File sslServerKeyCertChainFile = new File(
+                            socksServerConfig.getSslServerKeyCertChainFilePath());
+                    File sslServerPrivateKeyFile = new File(
+                            socksServerConfig.getSslServerPrivateKeyFilePath());
+
+                    if (!sslServerKeyCertChainFile.exists()) {
+                        $.die("ssl server KeyCertChain file not exists!");
+                    }
+
+                    if (!sslServerPrivateKeyFile.exists()) {
+                        $.die("ssl server private key file not exists!");
+                    }
+
+                    SslContextBuilder sslContextBuilder = null;
+                    if (socksServerConfig.getSslServerPrivateKeyPassword().isEmpty()) {
+                        sslContextBuilder = SslContextBuilder.
+                                forServer(sslServerKeyCertChainFile, sslServerPrivateKeyFile);
+                    } else {
+                        sslContextBuilder = SslContextBuilder.forServer(
+                                sslServerKeyCertChainFile,
+                                sslServerPrivateKeyFile,
+                                socksServerConfig.getSslServerPrivateKeyPassword());
+                    }
+
+                    socksServerConfig.setSslContextForServer(sslContextBuilder.build());
+
+                }
+
+            } catch (SSLException e) {
+
+                $.die("build SslContext error", e);
 
             }
 

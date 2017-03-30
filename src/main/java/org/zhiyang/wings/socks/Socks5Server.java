@@ -14,6 +14,7 @@ import io.netty.handler.codec.socksx.v5.Socks5InitialRequestDecoder;
 import io.netty.handler.codec.socksx.v5.Socks5ServerEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,11 @@ public class Socks5Server implements SocksServer {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
 
                             ChannelPipeline pipeline =  socketChannel.pipeline();
+                            if (socksServerConfig.isSslForServer()) {
+                                pipeline.addLast(socksServerConfig.getSslContextForServer().
+                                        newHandler(socketChannel.alloc()));
+                            }
+
                             pipeline.addLast(new IdleStateHandler(
                                     0,
                                     0,

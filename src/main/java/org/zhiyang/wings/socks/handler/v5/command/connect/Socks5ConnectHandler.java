@@ -52,6 +52,12 @@ public class Socks5ConnectHandler extends SimpleChannelInboundHandler<Socks5Comm
             protected void initChannel(SocketChannel ch) throws Exception {
 
                 ChannelPipeline pipeline = ch.pipeline();
+                if (socksServerConfig.isSslForDispatch()) {
+                    pipeline.addLast(socksServerConfig.getSslContextForDispatch().
+                            newHandler(ch.alloc(),
+                                    socksServerConfig.getDispatchSocksV5Address(),
+                                    socksServerConfig.getDispatchSocksV5Port()));
+                }
                 pipeline.addLast(new CloseHandle(ctx.channel()));
                 pipeline.addLast(Socks5ClientEncoder.DEFAULT);
                 pipeline.addLast(new SendSocks5InitialRequest(socksServerConfig));
@@ -66,8 +72,8 @@ public class Socks5ConnectHandler extends SimpleChannelInboundHandler<Socks5Comm
 
         });
         bootstrap.connect(
-                socksServerConfig.getDispatchSocksv5Address(),
-                socksServerConfig.getDispatchSocksv5Port()).addListener(new ChannelFutureListener() {
+                socksServerConfig.getDispatchSocksV5Address(),
+                socksServerConfig.getDispatchSocksV5Port()).addListener(new ChannelFutureListener() {
 
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
@@ -164,7 +170,7 @@ public class Socks5ConnectHandler extends SimpleChannelInboundHandler<Socks5Comm
 
         });
 
-        if (socksServerConfig.isDispatchUseSocksv5()) {
+        if (socksServerConfig.isDispatchUseSocksV5()) {
             socksV5Dispatch(ctx, promise, request);
         } else {
             normalDispatch(ctx, promise, request);
