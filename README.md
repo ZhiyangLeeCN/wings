@@ -63,7 +63,10 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
 
 ## 启用SSL加密传输
 
-#### 生成自签名证书
+wings使用SSL单向验证加密数据，在启用SSL之前，你需要安装一个openssl并使用它生成自签名证书，如何在对应的操作系统上安装openssl可以参考
+网上的教程，这里只讨论如何生成自签名证书用于SSL加密
+
+#### 生成自签名证书(在服务器端上生成)
 ```shell
 //socks.key(输出的私钥文件) socks.crt(输出的证书文件)
 openssl req -newkey rsa:2048 -x509 -days 365 -keyout socks.key -out socks.crt
