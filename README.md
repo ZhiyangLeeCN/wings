@@ -1,4 +1,4 @@
-[wings - 支持加密的Socks服务](http://github.com/baidu/bfs)
+[wings - 支持加密的Socks服务](https://github.com/ZhiyangLeeCN/wings)
 ======
 
 <img src="https://travis-ci.org/ZhiyangLeeCN/wings.svg?branch=master">
@@ -97,10 +97,10 @@ Enter Encryption Password:
     #你前面执行命令生成的证书文件(socks.crt)的路径
     sslServerKeyCertChainFilePath: "/xxx/socks.crt"
 
-    #你转换成PKS8格式的私钥文件路径(socks_pkcs8.key)
+    #你转换成PKCS8格式的私钥文件路径(socks_pkcs8.key)
     sslServerPrivateKeyFilePath: "/xxx/socks_pkcs8.key"
 
-    #你为转换成PKS8格式的私钥文件所设置的密码
+    #你为转换成PKCS8格式的私钥文件所设置的密码
     sslServerPrivateKeyPassword: "xxxxx"
 
 #### 修改客户端配置文件新增以下选项(client.yaml)
