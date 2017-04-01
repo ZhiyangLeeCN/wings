@@ -65,8 +65,8 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
 
 wings的SSL采用的是单向验证，需要使用openssl生成自签名证书，并且server和client的配置文件都需要做出小部分对应的修改。
 
-### 生成自签名证书
-//socks.key(输出的私钥文件) socks.crt(输出的证书文件) 2048位长度目前认为不可被暴力破解
+#### 生成自签名证书
+//socks.key(输出的私钥文件) socks.crt(输出的证书文件)
 openssl req -newkey rsa:2048 -x509 -days 365 -keyout socks.key -out socks.crt
 
 //输入以上命令会提示你设置私钥文件的密码，提示如下
@@ -76,7 +76,7 @@ Verifying - Enter PEM pass phrase:
 //之后会让你输入国家以及个人信息等资料，因为是自签名，随便填写回车下去生成即可
 //成功后会在你当前执行命令的目录下生成2个文件，socks.key和socks.crt
 
-### 将私钥文件由rsa转换为PCKS8格式
+#### 将私钥文件由rsa转换为PCKS8格式
 openssl pkcs8 -topk8 -inform PEM -in socks.key -outform PEM -out socks_pkcs8.key
 
 //输入以上命令会先让你输入私钥文件的访问密码(你执行前面命令所设置的)
