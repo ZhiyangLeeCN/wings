@@ -25,20 +25,20 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
     mvn package
 
 #### 创建服务端配置文件(server.yaml)
-    ```
+    ``
     #监听端口
     port: 1080
 
     #处理socks连接的线程数量(推荐 cpu数量 x 4)
     serverSelectorThreads: 3
 
-    ```
+    ``
 #### 在服务端启动socks服务
     nohup java -jar wings-1.0-SNAPSHOT-shaded.jar -p -c server.yaml >> /dev/null 2>&1 &
 
 
 #### 创建本地客户端配置文件(client.yaml)
-    ```
+    ``
      #监听端口
      port: 1080
 
@@ -52,13 +52,13 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
      dispatchSocksV5Port: 1080
 
 
-    ```
+    ``
 
 ### 在本地机器上启动客户端的socks转发服务
     //windows(cmd)
     java -jar wings-1.0-SNAPSHOT-shaded.jar -p -c client.yaml
 
-    //Mac\Linux\UNIX
+    //Mac/Linux/UNIX
     nohup java -jar wings-1.0-SNAPSHOT-shaded.jar -p -c client.yaml >> /dev/null 2>&1 &
 
 
@@ -72,7 +72,7 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
 wings的SSL采用的是单向验证，需要使用openssl生成自签名证书，并且server和client的配置文件都需要做出小部分对应的修改。
 
 #### 生成自签名证书
-
+``
 //socks.key(输出的私钥文件) socks.crt(输出的证书文件) 2048位长度目前认为不可被暴力破解
 openssl req -newkey rsa:2048 -x509 -days 365 -keyout socks.key -out socks.crt
 
@@ -82,8 +82,10 @@ Enter PEM pass phrase:
 Verifying - Enter PEM pass phrase:
 //之后会让你输入国家以及个人信息等资料，因为是自签名，随便填写回车下去生成即可
 //成功后会在你当前执行命令的目录下生成2个文件，socks.key和socks.crt
+``
 
 ### 将私钥文件由rsa转换为PCKS8格式
+``
 openssl pkcs8 -topk8 -inform PEM -in socks.key -outform PEM -out socks_pkcs8.key
 
 //输入以上命令会先让你输入私钥文件的访问密码(你执行前面命令所设置的)
@@ -91,10 +93,10 @@ Enter pass phrase for socks.key:
 //然后会让你设置转换后新输出的秘钥文件的密码
 Enter Encryption Password:
 //完成后，会在你执行命令的目录下生成了一个socks_pkcs8.key文件，由socks.key转换而来
+``
 
 #### 修改服务端配置文件新增以下选项(server.yaml)
-
-    ```
+    ``
     #SOCKS服务端启用SSL
     sslForServer: true
 
@@ -107,15 +109,15 @@ Enter Encryption Password:
     #你为转换成PKS8格式的私钥文件所设置的密码
     sslServerPrivateKeyPassword: "xxxxx"
 
-    ```
+    ``
 
 #### 修改客户端配置文件新增以下选项(client.yaml)
 
-    ```
+    ``
     #客户端启用SSL
     sslForDispatch: false
 
-    ```
+    ``
 
 然后分别在服务器上和本机上重新启动wings即可
 
