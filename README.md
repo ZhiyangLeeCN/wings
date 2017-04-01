@@ -102,7 +102,7 @@ Enter Encryption Password:
 
 #### 修改客户端配置文件新增以下选项(client.yaml)
     #客户端启用SSL
-    sslForDispatch: false
+    sslForDispatch: true
 
 然后分别在服务器上和本机上重新启动wings即可
 
