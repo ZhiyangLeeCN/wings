@@ -63,8 +63,6 @@ wings-1.0-SNAPSHOT-shaded.jar的文件，该jar可以当本地客户端也可以
 
 ## 启用SSL加密传输
 
-wings的SSL采用的是单向验证，需要使用openssl生成自签名证书，并且server和client的配置文件都需要做出小部分对应的修改。
-
 #### 生成自签名证书
 //socks.key(输出的私钥文件) socks.crt(输出的证书文件)
 openssl req -newkey rsa:2048 -x509 -days 365 -keyout socks.key -out socks.crt
