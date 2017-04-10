@@ -31,7 +31,8 @@ public class CloseHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("close connection because error occurred, ctx name:" + ctx.name(), cause);
+
+        log.error("close connection because error occurred", cause);
 
         if (relatedChannel != null) {
             if (relatedChannel.isActive()) {

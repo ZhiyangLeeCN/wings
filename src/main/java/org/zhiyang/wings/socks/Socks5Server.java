@@ -16,6 +16,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zhiyang.wings.socks.handler.CloseHandler;
+import org.zhiyang.wings.socks.handler.TrafficLogHandler;
 import org.zhiyang.wings.socks.handler.v5.Socks5CommandRequestHandler;
 import org.zhiyang.wings.socks.handler.v5.Socks5InitialRequestHandler;
 
@@ -58,6 +59,7 @@ public class Socks5Server implements SocksServer {
                                         newHandler(socketChannel.alloc()));
                             }
 
+                            pipeline.addLast(new TrafficLogHandler(3000));
                             pipeline.addLast(new IdleStateHandler(
                                     0,
                                     0,
